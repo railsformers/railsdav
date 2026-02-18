@@ -95,7 +95,7 @@ class ActionDispatch::Routing::Mapper
     def webdav_resource(*resources, &block)
       options = resources.extract_options!.dup
 
-      if apply_common_behavior_for(:webdav_resource, resources, options, &block)
+      if apply_common_behavior_for(:webdav_resource, resources, **options, &block)
         return self
       end
 
@@ -130,7 +130,7 @@ class ActionDispatch::Routing::Mapper
         resource_scope(:webdav_resource, WebDAVSingletonResource.new(resources.pop, options), &sub_block)
       else
         with_scope_level :webdav_resource do
-          resource_scope WebDAVResource.new(resources.pop, api_only?, options), &sub_block
+          resource_scope WebDAVResource.new(resources.pop, api_only?, false, **options), &sub_block
         end
       end
 
@@ -140,7 +140,7 @@ class ActionDispatch::Routing::Mapper
     def webdav_resources(*resources, &block)
       options = resources.extract_options!
 
-      if apply_common_behavior_for(:webdav_resources, resources, options, &block)
+      if apply_common_behavior_for(:webdav_resources, resources, **options, &block)
         return self
       end
 
@@ -207,7 +207,7 @@ class ActionDispatch::Routing::Mapper
         resource_scope(:webdav_resources, WebDAVResource.new(resources.pop, options), &sub_block)
       else
         with_scope_level :webdav_resources do
-          resource_scope WebDAVResource.new(resources.pop, api_only?, options), &sub_block
+          resource_scope WebDAVResource.new(resources.pop, api_only?, false, **options), &sub_block
         end
       end
 
